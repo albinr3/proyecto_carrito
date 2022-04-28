@@ -12,6 +12,13 @@ loadEventListeners();
 
 function loadEventListeners() {
 
+    //on load
+    document.addEventListener("DOMContentLoaded", () => {
+        cartItems = JSON.parse(localStorage.getItem("Cursos")) || [];
+
+        cartHtml();
+    });
+
     //When you add a course clicking add to the cart
     courses_list.addEventListener("click", addCourse);
 
@@ -33,6 +40,7 @@ function addCourse(e) {
     e.preventDefault();
 
     const selected_course = e.target.parentElement.parentElement;
+    console.log(selected_course);
 
     if ( e.target.classList.contains("agregar-carrito") ) {
         readCourseData(selected_course);
@@ -73,7 +81,7 @@ function readCourseData(course) {
     };
     console.log(cartItems);
     //then after we add the course to the array, we ejecute the function to add the html
-    cartHtml();
+    cartHtml(); 
 }
 
 //Showing the cart items on the cart html
@@ -81,7 +89,6 @@ function readCourseData(course) {
 function cartHtml() {
     //empty the cart before add any item
     emptyCart();
-
     //making table rows and adding the courses to each rows
     cartItems.forEach( course => {
         //here we apply destructuring
@@ -104,7 +111,11 @@ function cartHtml() {
         `;
         cart_list.appendChild(cartRow);
     })
+
+    //adding the products to localstorage
+    localStorage.setItem("Cursos", JSON.stringify(cartItems));
 }
+
 
 //empty the cart before add any item
 function emptyCart() {
@@ -131,3 +142,5 @@ function deleteCourse(e) {
         
     };
 }
+
+
